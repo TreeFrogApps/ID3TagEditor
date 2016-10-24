@@ -7,8 +7,7 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.TagException;
 import org.jaudiotagger.tag.reference.GenreTypes;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class Main {
 
@@ -21,9 +20,8 @@ public class Main {
 
         if (mp3FileDir.exists() && mp3FileDir.isDirectory()) {
 
-            ID3TagEditor tagEditor = null;
             try {
-                tagEditor = new ID3TagEditor(mp3FileDir.listFiles()[1]);
+                ID3TagEditor tagEditor = new ID3TagEditor(mp3FileDir.listFiles()[1]);
 
                 for (int i = 2; i < mp3FileDir.listFiles().length; i++) {
 
@@ -40,72 +38,27 @@ public class Main {
                     }
                 }
 
-                tagEditor.setArtist("Carlos Santana - Name changed");
+                tagEditor.setArtist("Artist - Tester");
                 tagEditor.setGenre(GenreTypes.getInstanceOf().getValueForId(22)); // Death Metal
-                tagEditor.setSongTitle("Nothing At All - Name Changed");
+                tagEditor.setSongTitle("Title - Tester");
                 tagEditor.setYear(String.valueOf(2016));
                 tagEditor.setTrackNumber(1, 10);
-                tagEditor.setAlbum("Shaman - Name Changed");
+                tagEditor.setAlbum("Album - Tester");
                 tagEditor.setSongComment("this is a test comment");
-                tagEditor.setAlbumArt(new File("files/f.jpg"));
+                tagEditor.setAlbumArt(new File("files/album_art/test.png"));
 
-                tagEditor.setSongLyrics("I am a victim of my time\n" +
-                        "A produce of my age\n" +
-                        "There's no choosing my direction\n" +
-                        "I was a holy man but now\n" +
-                        "With all my trials behind me\n" +
-                        "I am weak in my conviction\n" +
-                        "\n" +
-                        "And so I walk to try to get away\n" +
-                        "Knowing that someday I will finally have to face\n" +
-                        "The fear that will come from knowing that\n" +
-                        "The one thing I had left was you\n" +
-                        "And now you're gone\n" +
-                        "\n" +
-                        "You were a victim of my crimes\n" +
-                        "A product of my rage\n" +
-                        "You were a beautiful distraction\n" +
-                        "I kept you locked away outside\n" +
-                        "Let misery provide\n" +
-                        "And now I am ashamed\n" +
-                        "\n" +
-                        "And so I walk to try to find a space\n" +
-                        "Where I can be alone to live with my mistakes\n" +
-                        "And the fear that will come\n" +
-                        "From knowing that the one thing\n" +
-                        "I had left was you\n" +
-                        "And now you're gone\n" +
-                        "\n" +
-                        "[Chorus:]\n" +
-                        "Is there nothing at all\n" +
-                        "That i can do to turn your hert\n" +
-                        "Is there nothing to lean on\n" +
-                        "That could help erase the scars\n" +
-                        "Te quiero - me quiero\n" +
-                        "And I could use a little strength before I fall\n" +
-                        "Is there nothing at all\n" +
-                        "\n" +
-                        "I am victim of my time\n" +
-                        "A product of the age\n" +
-                        "You alone are my obsession\n" +
-                        "You were the one I left behind\n" +
-                        "You've been heavy on my mind\n" +
-                        "It's been a lonely road I've traveled\n" +
-                        "\n" +
-                        "And so I walk to try to get away\n" +
-                        "Knowing that someday I will finally have to face\n" +
-                        "The fear that will come from knowing that\n" +
-                        "The one thing I had left was you\n" +
-                        "And now you're gone\n" +
-                        "\n" +
-                        "[Chorus:]\n" +
-                        "Is there nothing at all\n" +
-                        "That I can do to turn your heart\n" +
-                        "Is there nothing to lean on\n" +
-                        "Tha cold help erase the scars\n" +
-                        "Te quiero - me quiero\n" +
-                        "And I could use a little strength before I fall\n" +
-                        "Is there nothing at all");
+                FileInputStream fis = new FileInputStream(new File("files/lyrics/lyrics_tester.txt"));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(fis, "UTF-8"));
+                StringBuilder sb = new StringBuilder();
+
+                String line;
+                while((line = reader.readLine()) != null){
+                    sb.append(line).append('\n');
+                }
+
+                fis.close();
+                reader.close();
+                tagEditor.setSongLyrics(sb.toString());
 
                 System.out.println("Applying Changes...\n");
 
