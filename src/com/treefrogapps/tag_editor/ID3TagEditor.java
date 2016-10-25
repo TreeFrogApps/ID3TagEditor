@@ -60,9 +60,13 @@ public class ID3TagEditor extends AbstractID3TagEditor {
 
                 mp3File.getID3v2Tag().deleteField(FieldKey.ARTIST);
                 mp3File.getID3v2Tag().deleteField(FieldKey.ALBUM_ARTIST);
+                mp3File.getID3v2Tag().deleteField(FieldKey.ORIGINAL_ARTIST);
+
                 try {
                     mp3File.getID3v2Tag().addField(FieldKey.ARTIST, artist);
                     mp3File.getID3v2Tag().addField(FieldKey.ALBUM_ARTIST, artist);
+                    mp3File.getID3v2Tag().addField(FieldKey.ORIGINAL_ARTIST, artist);
+
                 } catch (FieldDataInvalidException e) {
                     e.printStackTrace();
                 }
